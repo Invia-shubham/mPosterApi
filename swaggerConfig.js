@@ -55,9 +55,63 @@ const swaggerDefinition = {
             example: 123,
           },
           UserId: {
-            type: "integer",
-            description: "The ID of the user who created the banner.",
-            example: 1,
+            type: "object",
+            description:
+              "The user object who created the banner, excluding the password.",
+            properties: {
+              _id: {
+                type: "string",
+                description: "The unique identifier for the user.",
+                example: "67ce550b6998a912d9f49f75",
+              },
+              Name: {
+                type: "string",
+                description: "The name of the user.",
+                example: "John Doe",
+              },
+              EmailId: {
+                type: "string",
+                description: "The email ID of the user.",
+                example: "sl@yopmail.com",
+              },
+              MobileNumber: {
+                type: "string",
+                description: "The mobile number of the user.",
+                example: "9315732328",
+              },
+              PartyId: {
+                type: "integer",
+                description: "The party ID the user belongs to.",
+                example: 1,
+              },
+              role: {
+                type: "string",
+                description: "The role of the user.",
+                example: "user",
+              },
+              createdAt: {
+                type: "string",
+                format: "date-time",
+                description: "The date when the user was created.",
+                example: "2025-03-10T02:57:15.545Z",
+              },
+              updatedAt: {
+                type: "string",
+                format: "date-time",
+                description: "The date when the user was last updated.",
+                example: "2025-03-10T02:57:15.545Z",
+              },
+            },
+            example: {
+              _id: "67ce550b6998a912d9f49f75",
+              Name: "John Doe",
+              EmailId: "sl@yopmail.com",
+              MobileNumber: "9315732328",
+              PartyId: 1,
+              role: "user",
+              createdAt: "2025-03-10T02:57:15.545Z",
+              updatedAt: "2025-03-10T02:57:15.545Z",
+            },
           },
           Title: {
             type: "string",
@@ -68,12 +122,6 @@ const swaggerDefinition = {
             type: "string",
             description: "The description of the banner.",
             example: "Huge discounts on summer items!",
-          },
-          isSuspicious: {
-            type: "boolean",
-            description:
-              "Indicates if the banner has been marked as suspicious.",
-            example: false,
           },
         },
       },

@@ -260,6 +260,7 @@ router.post("/login", async (req, res) => {
 
     // Respond with success message, the JWT token, and user data
     const userResponse = {
+      id: user._id,
       name: user.Name,
       email: user.EmailId,
       mobile: user.MobileNumber,
@@ -274,6 +275,84 @@ router.post("/login", async (req, res) => {
       statusCode: res.statusCode,
       user: userResponse,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   get:
+ *     summary: Get user by ID
+ *     description: This endpoint retrieves user details by user ID.
+ *     tags: [UserMaster]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the user to retrieve.
+ *         schema:
+ *           type: string
+ *           example: "60c72b2f9b1e8d5b8b2f5e22"
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: "60c72b2f9b1e8d5b8b2f5e22"
+ *                 name:
+ *                   type: string
+ *                   example: "John Doe"
+ *                 email:
+ *                   type: string
+ *                   example: "john.doe@example.com"
+ *                 mobile:
+ *                   type: string
+ *                   example: "1234567890"
+ *                 role:
+ *                   type: string
+ *                   example: "user"
+ *                 PartyId:
+ *                   type: number
+ *                   example: 1
+ *                 profileImage:
+ *                   type: string
+ *                   example: "https://example.com/profile.jpg"
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
+router.get("/user/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Find the user by their ID
+    const user = await UserMaster.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Respond with user details
+    const userResponse = {
+      id: user._id,
+      name: user.Name,
+      email: user.EmailId,
+      mobile: user.MobileNumber,
+      role: user.role,
+      PartyId: user.PartyId || null,
+      profileImage: user.profileImage || null,
+    };
+
+    res.status(200).json(userResponse);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
