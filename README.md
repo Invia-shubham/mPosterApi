@@ -5,34 +5,33 @@ A simple poster app built with Node.js, Express, and MongoDB.
 ## Installation
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/mposter.git
-    ```
+
+   ```bash
+   git clone https://github.com/Invia-shubham/mPosterApi.git
+   ```
 
 2. Navigate to the project folder:
-    ```bash
-    cd mposter
-    ```
+
+   ```bash
+   cd mposter
+   ```
 
 3. Install dependencies:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 ## Usage
 
-1. Set up environment variables by creating a `.env` file:
-    ```env
-    MONGO_URI=mongodb://localhost:27017/mposter
-    JWT_SECRET=your_jwt_secret_key
-    ```
+1. Start the server:
 
-2. Start the server:
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
-3. Visit `http://localhost:3000` in your browser.
+2. Visit `http://localhost:3000` in your browser.
+
+3. Visit `http://localhost:3000/api-docs` in your browser for api docs.
 
 ## Dependencies
 
