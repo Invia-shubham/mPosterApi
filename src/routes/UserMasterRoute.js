@@ -11,6 +11,7 @@ const JWT_SECRET = "key";
  *   post:
  *     summary: Register a new user
  *     description: This endpoint registers a new user with the provided details such as name, email, password, and mobile number. Optionally, a party ID, role, and profile image can also be provided.
+ *     tags: [UserMaster]
  *     consumes:
  *       - application/json
  *     parameters:
@@ -157,6 +158,7 @@ router.post("/register", async (req, res) => {
  *   post:
  *     summary: Login a user
  *     description: This endpoint authenticates a user by their email and password. Upon successful authentication, a JWT token is generated.
+ *     tags: [UserMaster]
  *     consumes:
  *       - application/json
  *     parameters:

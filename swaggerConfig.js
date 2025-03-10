@@ -45,6 +45,70 @@ const swaggerDefinition = {
           },
         },
       },
+
+      UserBanner: {
+        type: "object",
+        properties: {
+          BannerCode: {
+            type: "integer",
+            description: "A unique identifier for the banner.",
+            example: 123,
+          },
+          UserId: {
+            type: "integer",
+            description: "The ID of the user who created the banner.",
+            example: 1,
+          },
+          Title: {
+            type: "string",
+            description: "The title of the banner.",
+            example: "Summer Sale",
+          },
+          Description: {
+            type: "string",
+            description: "The description of the banner.",
+            example: "Huge discounts on summer items!",
+          },
+          isSuspicious: {
+            type: "boolean",
+            description:
+              "Indicates if the banner has been marked as suspicious.",
+            example: false,
+          },
+        },
+      },
+
+      PartyList: {
+        type: "object",
+        properties: {
+          PId: {
+            type: "integer",
+            description: "A unique identifier for the party.",
+            example: 1,
+          },
+          PartyLogoUrl: {
+            type: "string",
+            description: "The URL of the party's logo.",
+            example: "https://example.com/logo.png",
+          },
+          Title: {
+            type: "string",
+            description: "The title of the party.",
+            example: "Green Party",
+          },
+          Description: {
+            type: "string",
+            description: "A brief description of the party.",
+            example: "A progressive party advocating for environmental change.",
+          },
+          PartyColor: {
+            type: "string",
+            description:
+              "The color associated with the party (e.g., hex color code or name).",
+            example: "#4CAF50",
+          },
+        },
+      },
     },
     responses: {
       Unauthorized: {

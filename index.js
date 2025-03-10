@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swaggerConfig");
 const UserMasterRoute = require("./src/routes/UserMasterRoute");
+const UserBannerRoute = require("./src/routes/UserBannerRoute");
+const PartyListRoute = require("./src/routes/PartyListRoute");
+
+
 
 const app = express();
 app.use(express.json());
@@ -18,6 +22,10 @@ mongoose
 
 // Use API Routes
 app.use("/api", UserMasterRoute);
+app.use("/api", UserBannerRoute);
+app.use("/api", PartyListRoute);
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
