@@ -45,62 +45,62 @@ const upload = multer({
 });
 
 // Image upload API
-/**
- * @swagger
- * /api/upload:
- *   post:
- *     summary: Upload an image
- *     description: Upload an image to the server and receive the image URL.
- *     tags: [Image Upload]
- *     consumes:
- *       - multipart/form-data
- *     parameters:
- *       - name: image
- *         in: formData
- *         description: The image file to be uploaded
- *         required: true
- *         type: file
- *     responses:
- *       200:
- *         description: Image uploaded successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Image uploaded successfully!"
- *                 filename:
- *                   type: string
- *                   example: "1734596260039.png"
- *                 file:
- *                   type: string
- *                   example: "/path/routes/uploads/1734596260039.png"
- *                 url:
- *                   type: string
- *                   example: "http://localhost:3000/uploads/1734596260039.png"
- *       400:
- *         description: No file uploaded
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "No file uploaded!"
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Error uploading file"
- */
+// /**
+//  * @swagger
+//  * /api/upload:
+//  *   post:
+//  *     summary: Upload an image
+//  *     description: Upload an image to the server and receive the image URL.
+//  *     tags: [Image Upload]
+//  *     consumes:
+//  *       - multipart/form-data
+//  *     parameters:
+//  *       - name: image
+//  *         in: formData
+//  *         description: The image file to be uploaded
+//  *         required: true
+//  *         type: file
+//  *     responses:
+//  *       200:
+//  *         description: Image uploaded successfully
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "Image uploaded successfully!"
+//  *                 filename:
+//  *                   type: string
+//  *                   example: "1734596260039.png"
+//  *                 file:
+//  *                   type: string
+//  *                   example: "/path/routes/uploads/1734596260039.png"
+//  *                 url:
+//  *                   type: string
+//  *                   example: "http://localhost:3000/uploads/1734596260039.png"
+//  *       400:
+//  *         description: No file uploaded
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "No file uploaded!"
+//  *       500:
+//  *         description: Internal server error
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "Error uploading file"
+//  */
 
 router.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
