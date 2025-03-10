@@ -473,6 +473,9 @@ router.get("/user/:id", async (req, res) => {
  *                 message:
  *                   type: string
  *                   example: User updated successfully
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
  *                 user:
  *                   type: object
  *                   properties:
@@ -527,7 +530,11 @@ router.put("/users/update/:id", async (req, res) => {
     await user.save();
 
     // Respond with the updated user
-    res.status(200).json({ message: "User updated successfully", user });
+    res.status(200).json({
+      message: "User updated successfully",
+      statusCode: res.statusCode,
+      user,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
