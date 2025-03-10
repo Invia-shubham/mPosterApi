@@ -4,32 +4,32 @@ const Schema = mongoose.Schema;
 const PartyListSchema = new Schema(
   {
     PId: {
-      type: Number, // Assuming PId is an integer like in SQL
-      required: true, // If PId is required
-      unique: true, // If PId is unique
+      type: Number, 
+      required: true, 
+      unique: true, 
     },
     PartyLogoUrl: {
-      type: String, // The PartyLogoUrl would be a URL string
-      required: false, // Assuming it's optional
+      type: String, 
+      required: false, 
     },
     Title: {
       type: String,
-      required: false, // Assuming it's optional, but you can make it required if needed
-      maxlength: 150, // The max length is 150 as per your SQL definition
+      required: false, 
+      maxlength: 150, 
     },
     Description: {
       type: String,
-      required: false, // Assuming it's optional, but you can make it required if needed
-      maxlength: 600, // Max length of 600 for Description
+      required: false, 
+      maxlength: 600, 
     },
     PartyColor: {
       type: String,
-      required: false, // Assuming it's optional
-      maxlength: 10, // Max length of 10 for PartyColor
+      required: false, 
+      maxlength: 10, 
     },
   },
   {
-    timestamps: true, // Optionally add timestamps for createdAt and updatedAt
+    timestamps: true, 
   }
 );
 

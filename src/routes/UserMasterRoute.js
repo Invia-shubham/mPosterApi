@@ -5,54 +5,53 @@ const UserMaster = require("../models/UserMasterSchema");
 
 const router = express.Router();
 const JWT_SECRET = "key";
+
 /**
  * @swagger
  * /api/register:
  *   post:
  *     summary: Register a new user
- *     description: This endpoint registers a new user with the provided details such as name, email, password, and mobile number. Optionally, a party ID, role, and profile image can also be provided.
- *     tags: [UserMaster]
- *     consumes:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: user
- *         description: User object that needs to be registered.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             Name:
- *               type: string
- *               example: "John Doe"
- *               description: Name of the user (required, max length 200 characters).
- *             EmailId:
- *               type: string
- *               example: "john.doe@example.com"
- *               description: Email address of the user (required, max length 150 characters, must be a valid email format).
- *             Pwd:
- *               type: string
- *               example: "password123"
- *               description: Password of the user (required, minimum length 6 characters).
- *             MobileNumber:
- *               type: string
- *               example: "1234567890"
- *               description: Mobile number of the user (required, must be 10-15 digits).
- *             PartyId:
- *               type: number
- *               example: 1
- *               description: Optional Party ID (must be a valid number).
- *             role:
- *               type: string
- *               example: "user"
- *               description: Role of the user (optional, defaults to "user").
- *             profileImage:
- *               type: string
- *               example: "https://example.com/profile.jpg"
- *               description: Profile image URL (optional).
+ *     description: Registers a new user with the provided details including Name, Email, Password, Mobile Number, Party ID, and Profile Image.
+ *     tags:
+ *       - UserMaster
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Name:
+ *                 type: string
+ *                 description: Full name of the user
+ *                 example: "John Doe"
+ *               EmailId:
+ *                 type: string
+ *                 description: Email address of the user
+ *                 example: "john.doe@example.com"
+ *               Pwd:
+ *                 type: string
+ *                 description: Password for the user account
+ *                 example: "Password123"
+ *               MobileNumber:
+ *                 type: string
+ *                 description: Mobile number of the user
+ *                 example: "1234567890"
+ *               PartyId:
+ *                 type: number
+ *                 description: Party ID to associate the user with
+ *                 example: 1
+ *               role:
+ *                 type: string
+ *                 description: Role of the user (default is "user")
+ *                 example: "user"
+ *               profileImage:
+ *                 type: string
+ *                 description: URL or path to the user's profile image
+ *                 example: "https://example.com/profile-image.jpg"
  *     responses:
  *       201:
- *         description: User successfully registered
+ *         description: User registered successfully
  *         content:
  *           application/json:
  *             schema:
@@ -77,16 +76,16 @@ const JWT_SECRET = "key";
  *                       type: string
  *                       example: "1234567890"
  *                     PartyId:
- *                       type: number
- *                       example: 1
+ *                       type: string
+ *                       example: "party123"
  *                     role:
  *                       type: string
  *                       example: "user"
  *                     profileImage:
  *                       type: string
- *                       example: "https://example.com/profile.jpg"
+ *                       example: "https://example.com/profile-image.jpg"
  *       400:
- *         description: Bad request (e.g., email already in use or invalid password)
+ *         description: Bad Request - Invalid input or email already in use
  *         content:
  *           application/json:
  *             schema:
@@ -96,7 +95,7 @@ const JWT_SECRET = "key";
  *                   type: string
  *                   example: "Password must be at least 6 characters long"
  *       500:
- *         description: Server error
+ *         description: Internal Server Error
  *         content:
  *           application/json:
  *             schema:
@@ -106,6 +105,7 @@ const JWT_SECRET = "key";
  *                   type: string
  *                   example: "Server error"
  */
+
 router.post("/register", async (req, res) => {
   const {
     Name,
@@ -152,34 +152,84 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//Get all user
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get a list of all users
+ *     description: Retrieves all users from the database.
+ *     tags: [UserMaster]
+ *     responses:
+ *       200:
+ *         description: Successfully fetched all users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The unique identifier of the user
+ *                   Name:
+ *                     type: string
+ *                     description: The name of the user
+ *                   EmailId:
+ *                     type: string
+ *                     description: The email address of the user
+ *                   MobileNumber:
+ *                     type: string
+ *                     description: The mobile number of the user
+ *                   PartyId:
+ *                     type: integer
+ *                     description: The party ID associated with the user
+ *                   role:
+ *                     type: string
+ *                     description: The role of the user (e.g., "user" or "admin")
+ *                   profileImage:
+ *                     type: string
+ *                     description: URL for the user's profile image
+ *       500:
+ *         description: Server error
+ */
+router.get("/users", async (req, res) => {
+  try {
+    const User = await UserMaster.find();
+    res.status(200).json(User);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching banners" });
+  }
+});
+
 /**
  * @swagger
  * /api/login:
  *   post:
  *     summary: Login a user
- *     description: This endpoint authenticates a user by their email and password. Upon successful authentication, a JWT token is generated.
- *     tags: [UserMaster]
- *     consumes:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: credentials
- *         description: User's login credentials (email and password).
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             EmailId:
- *               type: string
- *               example: "john.doe@example.com"
- *               description: Email address of the user (required).
- *             Pwd:
- *               type: string
- *               example: "password123"
- *               description: Password of the user (required).
+ *     description: Authenticates a user by verifying the provided credentials (EmailId and Password), then returns a JWT token and user details upon successful login.
+ *     tags:
+ *       - UserMaster
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               EmailId:
+ *                 type: string
+ *                 description: The email address of the user
+ *                 example: "john.doe@example.com"
+ *               Pwd:
+ *                 type: string
+ *                 description: The password for the user account
+ *                 example: "Password123"
  *     responses:
  *       200:
- *         description: User successfully logged in
+ *         description: Successful login
  *         content:
  *           application/json:
  *             schema:
@@ -190,13 +240,17 @@ router.post("/register", async (req, res) => {
  *                   example: "Login successful"
  *                 token:
  *                   type: string
- *                   example: "jwt_token_example"
+ *                   description: The JWT token to be used for authentication in future requests
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *                 statusCode:
  *                   type: integer
  *                   example: 200
  *                 user:
  *                   type: object
  *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "60f5f9a233d2e2a3a1b9dcd1"
  *                     name:
  *                       type: string
  *                       example: "John Doe"
@@ -211,12 +265,14 @@ router.post("/register", async (req, res) => {
  *                       example: "user"
  *                     PartyId:
  *                       type: number
+ *                       nullable: true
  *                       example: 1
  *                     profileImage:
  *                       type: string
- *                       example: "https://example.com/profile.jpg"
+ *                       nullable: true
+ *                       example: "https://example.com/profile-image.jpg"
  *       400:
- *         description: Invalid credentials (e.g., email or password is incorrect)
+ *         description: Invalid credentials (either user not found or password mismatch)
  *         content:
  *           application/json:
  *             schema:
@@ -226,7 +282,7 @@ router.post("/register", async (req, res) => {
  *                   type: string
  *                   example: "Invalid credentials"
  *       500:
- *         description: Server error
+ *         description: Internal Server Error
  *         content:
  *           application/json:
  *             schema:
@@ -241,8 +297,11 @@ router.post("/login", async (req, res) => {
   const { EmailId, Pwd } = req.body;
 
   try {
+    console.log("Received credentials:", { EmailId, Pwd });
+
     const user = await UserMaster.findOne({ EmailId });
     if (!user) {
+      console.log("User not found");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
@@ -250,9 +309,10 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(Pwd, user.Pwd);
 
     if (!isMatch) {
+      console.log("Password mismatch");
       return res.status(400).json({ message: "Invalid credentials" });
     }
-
+    console.log("User authenticated successfully");
     // If the password matches, generate a JWT token
     const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: "1h",
@@ -353,6 +413,121 @@ router.get("/user/:id", async (req, res) => {
     };
 
     res.status(200).json(userResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Update user by userId
+/**
+ * @swagger
+ * /api/users/update/{id}:
+ *   put:
+ *     summary: Update a user by userId
+ *     description: Update user data such as name, email, password, etc., by userId.
+ *     tags: [UserMaster]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the user to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Name:
+ *                 type: string
+ *                 description: The name of the user
+ *               EmailId:
+ *                 type: string
+ *                 description: The email address of the user
+ *               Pwd:
+ *                 type: string
+ *                 description: The password of the user
+ *               MobileNumber:
+ *                 type: string
+ *                 description: The mobile number of the user
+ *               PartyId:
+ *                 type: integer
+ *                 description: The party ID associated with the user
+ *               role:
+ *                 type: string
+ *                 description: The role of the user (e.g., "user" or "admin")
+ *               profileImage:
+ *                 type: string
+ *                 description: URL for the user's profile image
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User updated successfully
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The unique identifier of the user
+ *                     Name:
+ *                       type: string
+ *                     EmailId:
+ *                       type: string
+ *                     MobileNumber:
+ *                       type: string
+ *                     PartyId:
+ *                       type: integer
+ *                     role:
+ *                       type: string
+ *                     profileImage:
+ *                       type: string
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
+router.put("/users/update/:id", async (req, res) => {
+  const userId = req.params.id; // Get the user ID from the URL parameter
+  const { Name, EmailId, Pwd, MobileNumber, PartyId, role, profileImage } =
+    req.body;
+
+  try {
+    // Find the user by userId
+    const user = await UserMaster.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // // Update the user fields if provided
+    if (Name) user.Name = Name;
+    if (EmailId) user.EmailId = EmailId;
+    if (Pwd) user.Pwd = Pwd; // Make sure to hash the password if it's updated
+    if (MobileNumber) user.MobileNumber = MobileNumber;
+    if (PartyId) user.PartyId = PartyId;
+    if (role) user.role = role;
+    if (profileImage) user.profileImage = profileImage;
+
+    // If the password is modified, hash it before saving
+    if (Pwd) {
+      user.Pwd = await bcrypt.hash(Pwd, 10);
+    }
+
+    // Save the updated user
+    await user.save();
+
+    // Respond with the updated user
+    res.status(200).json({ message: "User updated successfully", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
