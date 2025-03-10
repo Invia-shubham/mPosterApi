@@ -2,15 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swaggerConfig");
+const path = require("path");
 const UserMasterRoute = require("./src/routes/UserMasterRoute");
 const UserBannerRoute = require("./src/routes/UserBannerRoute");
 const PartyListRoute = require("./src/routes/PartyListRoute");
+const uploadRoutes = require("./src/routes/uploadRoutes");
+
 
 
 
 const app = express();
 app.use(express.json());
-
 
 // Connect to MongoDB
 mongoose
@@ -24,6 +26,7 @@ mongoose
 app.use("/api", UserMasterRoute);
 app.use("/api", UserBannerRoute);
 app.use("/api", PartyListRoute);
+app.use("/api", uploadRoutes);
 
 
 
@@ -31,3 +34,5 @@ const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // Serve Swagger Docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/uploads", express.static(path.join(__dirname, "routes", "uploads")));
+
