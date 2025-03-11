@@ -9,6 +9,10 @@ const swaggerDefinition = {
   },
   servers: [
     {
+      url: "https://mposterapi.onrender.com", 
+      description: "Render development server",
+    },
+    {
       url: "http://localhost:3000", // Local server URL for development
       description: "Local development server",
     },
