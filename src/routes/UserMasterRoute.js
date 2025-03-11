@@ -155,7 +155,7 @@ router.post("/register", async (req, res) => {
 //Get all user
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     summary: Get a list of all users
  *     description: Retrieves all users from the database.
